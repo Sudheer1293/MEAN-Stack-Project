@@ -1,0 +1,20 @@
+.nav {
+    display: inline-block;
+}
+
+.nav-item {
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.nav-link {
+    display: inline-block;
+}
+
+.nav-item.active {
+    background-color: lightgray;
+}
+
+button {
+    float: right;
+}

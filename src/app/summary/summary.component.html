@@ -1,0 +1,45 @@
+<div class="container" style="margin-top: 50px;">
+    <div class="col-md-6"> 
+        <app-search-employee (searchValue)="getContactDetails($event)"></app-search-employee>
+    </div>
+    
+    <ul class="nav nav-tabs">
+        <li class="nav-item" [class.active]="activateClass" (click)="selectSummaryTab()">
+            <span class="nav-link">Summary</span>
+        </li>
+        <li class="nav-item" *ngFor="let tab of dynamicTabs" [class.active]="tab.active">
+            <span class="nav-link" (click)="selectTab(tab)">{{tab.title}}</span>
+            <button type="button" class="close" (click)="closeTab(tab)">
+                <span>x</span>
+            </button>
+        </li>
+
+    </ul>
+
+    <button class="btn btn-primary" (click)="addEmployee()">Add</button>
+    <button class="btn btn-primary" [disabled]="!selectedContactId" (click)="viewEmployee()">View</button>
+
+    <div class="tab-content">
+        <div class="tab-pane" [class.active]="activateClass" id="summary">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Employee Id</th>
+                        <th>Employee Name</th>
+                        <th>Company Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let contact of contacts" [attr.id]="contact.empid" 
+                        [style.backgroundColor] = "selectedContactId === contact.empid? 'lightgray' : 'white'" (click)="rowClicked(contact)">
+                        <td>{{contact.empid}}</td>
+                        <td>{{contact.name}}</td>
+                        <td>{{contact.company}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ng-template #container></ng-template>
+    </div>
+</div>
+<!-- <app-paginator></app-paginator> -->

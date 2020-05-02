@@ -1,0 +1,7 @@
+<form [formGroup]="searchForm" class="form-group">
+    <input type="text" placeholder="Enter employee name" formControlName="searchEmp" class="form-control"/>
+    <div style="display: inline;" class="input-group-append">
+        <button class="btn btn-secondary" type="button"(click)="onSubmit()" >Search</button>
+      </div>
+</form>
+    
