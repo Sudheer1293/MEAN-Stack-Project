@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolve
 import { Contact, Tab } from '../shared/model';
 import { AppService } from '../app.service';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
-import { element } from 'protractor';
 import { ViewEmployeeComponent } from '../view-employee/view-employee.component';
 
 @Component({
@@ -30,7 +29,6 @@ export class SummaryComponent implements OnInit {
   }
 
   getContactDetails(searchValue?: string) {
-    console.log(searchValue)
     this.appService.getContactDetails(searchValue).subscribe((value) => {
       this.contacts = value;
     });

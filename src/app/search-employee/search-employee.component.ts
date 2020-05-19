@@ -1,6 +1,5 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-search-employee',
@@ -31,7 +30,6 @@ export class SearchEmployeeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.getFormControls()['searchEmp'].value)
     const value = this.getFormControls()['searchEmp'].value;
     this.searchValue.emit(value);
   }

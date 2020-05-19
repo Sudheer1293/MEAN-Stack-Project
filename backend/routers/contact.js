@@ -5,11 +5,15 @@ const checkAuth = require('../middleware/check-auth');
 const multer = require('multer');
 
 router.get('/summary', checkAuth, async (req, res) => {
-    console.log("In summary route");
-    console.log(req)
-
+    const pattern = new RegExp(`^${req.query.search}.*`);
     try{
-        const contacts = await Contact.find();
+        if(req.query.search != undefined) {
+            contacts = await Contact.find({ name: { $regex: pattern, $options: 'i' }});
+        }
+        else {
+            contacts = await Contact.find();
+        }
+        
         res.status(200).send(contacts); 
     }
     catch (e) {

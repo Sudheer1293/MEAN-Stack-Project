@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Contact } from './shared/model';
 import { Router } from '@angular/router';
-import { Stats } from 'fs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +24,7 @@ export class AppService {
   getContactDetails(params: string = ''):Observable<Contact[]> {
     let searchParams = new HttpParams();
     if(params != '') {
-      searchParams = searchParams.set('text', params);
+      searchParams = searchParams.set('search', params);
     }
     
     return this.http.get<Contact[]>("http://localhost:3000/summary", { params: searchParams } );  // { params: { name: "ds" } }
