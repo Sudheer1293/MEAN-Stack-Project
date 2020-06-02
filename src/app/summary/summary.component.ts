@@ -3,6 +3,7 @@ import { Contact, Tab } from '../shared/model';
 import { AppService } from '../app.service';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 import { ViewEmployeeComponent } from '../view-employee/view-employee.component';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-summary',
@@ -13,6 +14,7 @@ export class SummaryComponent implements OnInit {
   contacts: Contact[];
   dynamicTabs: Tab[] = [];
   activateClass = true;
+  selectedContact: Contact;
   selectedContactId: string;
   imgFilePath: string;
   
@@ -26,6 +28,16 @@ export class SummaryComponent implements OnInit {
   ngOnInit(): void {
     // this.initialTab();
     this.getContactDetails();
+    this.appService.employeeAdded$
+      .pipe(
+        switchMap((tab) => {
+          this.closeTab(tab);
+          return this.appService.getContactDetails();
+        })
+      )
+      .subscribe((value) => {
+        this.contacts = value; 
+      });
   }
 
   getContactDetails(searchValue?: string) {
@@ -68,6 +80,17 @@ export class SummaryComponent implements OnInit {
     this.selectSummaryTab();
   }
 
+  editEmployee() {
+    this.dynamicTabs.map((tab) => tab.active = false);
+    const editTab = {
+      id: 'edit',
+      title: 'Edit Employee',
+      active: true,
+    }
+    this.dynamicTabs.push(editTab);
+    this.createEmployeeComponent(editTab, true);
+  }
+
   addEmployee() {
     const addTabExists = this.dynamicTabs.find((tab) => tab.id === 'add');
     if(addTabExists) {
@@ -80,12 +103,18 @@ export class SummaryComponent implements OnInit {
       active: true
     };
     this.dynamicTabs.push(addTab);
+    this.createEmployeeComponent(addTab);
+  }
 
-    
+  createEmployeeComponent(tab: Tab, isEdited?: boolean) {
     const factory = this.resolver.resolveComponentFactory(AddEmployeeComponent);
     const componentRef = this.container.createComponent(factory);
     
     componentRef.instance.tabs = this.dynamicTabs;
+    componentRef.instance.currentTab = tab;
+    if(isEdited) {
+      componentRef.instance.selectedEmployee = this.selectedContact;
+    }
     this.deselectSummaryTab();
     this.removeActiveClass();
   }
@@ -110,6 +139,7 @@ export class SummaryComponent implements OnInit {
   }
 
   rowClicked(contact: Contact) {
+    this.selectedContact = contact;
     this.selectedContactId = contact.empid;
     this.imgFilePath = contact.filePath;
   }

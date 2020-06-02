@@ -18,7 +18,11 @@ const contactSchema = new mongoose.Schema({
     },
     filePath: {
         type: String,
-    }
+    },
+    previousCompanies: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "PreviousCompany"
+    }],             
 });
 
 const Contact = mongoose.model('Contact', contactSchema);

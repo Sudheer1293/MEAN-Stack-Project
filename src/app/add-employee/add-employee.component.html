@@ -1,4 +1,44 @@
 <!-- <div class="tab-pane" [attr.id]="recentTabId"> -->
-    <p>add-employee works! {{id}}</p>
 <!-- </div>     -->
+
+<div>
+    <form [formGroup]="empForm" >
+        <div>
+            <label for="name">Employee Name</label>
+            <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'invalid': submitted && empFormControl.name.errors }"/>   
+            <div class="text-danger" *ngIf="submitted && empFormControl.name.errors">Please enter employee name</div>
+        </div>
+        
+        <div>
+            <label for="empid">Employee Id</label>
+            <input id="empid" type="text" formControlName="empid" class="form-control"/>
+        </div>
+        
+        <div>
+            <label for="company">Company Name</label>
+            <input id="company" type="text" formControlName="company" class="form-control"/>
+        </div>
+
+
+        <button class="btn btn-secondary" (click)="addExperience()">Add Previous Experience</button>
+
+        <div formArrayName="previousCompanies" *ngFor="let company of companies.controls;let i=index">
+            <div [formGroupName]="i" (keyup)="changed(i)">
+                <div>
+                    <label for="cname">Previous Company Name - {{i+1}}</label>
+                    <input id="cname" type="text" formControlName="companyName" class="form-control"/>
+                </div>
+                
+                <div>
+                    <label for="exp">Experience (in months)</label>
+                    <input id="exp" type="text" formControlName="experience" class="form-control"/>
+                    
+                </div>
+                
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()">{{submitValue}}</button>
+    </form>
+</div>
     

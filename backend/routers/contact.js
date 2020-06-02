@@ -8,10 +8,10 @@ router.get('/summary', checkAuth, async (req, res) => {
     const pattern = new RegExp(`^${req.query.search}.*`);
     try{
         if(req.query.search != undefined) {
-            contacts = await Contact.find({ name: { $regex: pattern, $options: 'i' }});
+            contacts = await Contact.find({ name: { $regex: pattern, $options: 'i' }}).populate('previousCompanies');
         }
         else {
-            contacts = await Contact.find();
+            contacts = await Contact.find().populate('previousCompanies');
         }
         
         res.status(200).send(contacts); 

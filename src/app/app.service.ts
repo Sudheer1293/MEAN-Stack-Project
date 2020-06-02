@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Contact } from './shared/model';
+import { Contact, Tab } from './shared/model';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class AppService {
   private token: string;
   authStatus$ = new Subject<boolean>();
+  employeeAdded$ = new Subject<Tab>();
 
   constructor(
     private http: HttpClient,
@@ -92,5 +93,13 @@ export class AppService {
       .subscribe(staus => {
         console.log("File uploaded")
       });
+  }
+
+  addEmployee(employee): Observable<string> {
+    return this.http.post<string>("http://localhost:3000/api/users/create", employee);
+  }
+  
+  updateEmployee(employee, id): Observable<string> {
+    return this.http.put<string>("http://localhost:3000/api/users/update/"+ id, employee);
   }
 }

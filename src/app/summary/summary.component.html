@@ -18,6 +18,7 @@
 
     <button class="btn btn-primary" (click)="addEmployee()">Add</button>
     <button class="btn btn-primary" [disabled]="!selectedContactId" (click)="viewEmployee()">View</button>
+    <button class="btn btn-primary" [disabled]="!selectedContactId" (click)="editEmployee()">Edit</button>
 
     <div class="tab-content">
         <div class="tab-pane" [class.active]="activateClass" id="summary">
